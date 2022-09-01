@@ -15,13 +15,13 @@ namespace ETicaretAPI.Persistence
     {
         public static void AddPersistanceService(this IServiceCollection services)
         {
-            services.AddDbContext<ETicaretAPIDbContext>(options => options.UseNpgsql(Configuration.ConnectionString), ServiceLifetime.Singleton);
-            services.AddSingleton<ICustomerReadRepository, CustomerReadRepository>(); //interface isteği geldiği zaman concreteni döndür
-            services.AddSingleton<ICustomerWriteRepository, CustomerWriteRepository>();
-            services.AddSingleton<IOrderReadRepository, OrderReadRepository>();
-            services.AddSingleton<IOrderWriteRepository, OrderWriteRepository>();
-            services.AddSingleton<IProductReadRepository, ProductReadRepository>();
-            services.AddSingleton<IProductWriteRepository, ProductWriteRepository>();
+            services.AddDbContext<ETicaretAPIDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
+            services.AddScoped<ICustomerReadRepository, CustomerReadRepository>(); //interface isteği geldiği zaman concreteni döndür
+            services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
+            services.AddScoped<IOrderReadRepository, OrderReadRepository>();
+            services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
+            services.AddScoped<IProductReadRepository, ProductReadRepository>();
+            services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
         }
     }
 }
