@@ -1,4 +1,7 @@
+using ETicaretAPI.Application.Validators.Product;
+using ETicaretAPI.Infrastructure.Filters;
 using ETicaretAPI.Persistence;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
@@ -8,7 +11,12 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 // Add services to the container.
 builder.Services.AddPersistanceService();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
+    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>()) 
+    .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
+//just one instance is engouh to take all the oders validation class. (whole layer's classes)
+//don't handle validation here. leave to controller
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
